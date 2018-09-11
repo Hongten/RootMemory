@@ -1,5 +1,5 @@
 # Root Memory
-A java web application that help us to rember word according to the root.
+A java web application that help us to remember word according to the root.
 
 # 1. Technologies
 * Spring 4.3.0.RELEASE
