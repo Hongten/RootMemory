@@ -56,11 +56,11 @@ public class WordController {
 		Word word = null;
 		if (wordService.isLoadData() && !wordService.isWordExist(keyword)) {
 			word = Common.getDefaultWord(keyword);
-			session.setAttribute(Common.COPY_RIGHT_YEAR, simpleDateFormat.format(new Date()));
 		} else {
 			word = wordService.findWord(keyword);
 		}
 
+		generateCopyRightYear(session);
 		session.setAttribute(Common.SESSION_MY_WORD, word);
 		session.setAttribute(Common.SESSION_MY_WORD_LIST, wordService.getAllWords());
 		model.addAttribute("word", word);
@@ -155,6 +155,7 @@ public class WordController {
 	@RequestMapping(value = "/aboutpage", method = RequestMethod.GET)
 	public String aboutpage(Model model, HttpSession session) {
 		logger.info("aboutpage method...");
+		generateCopyRightYear(session);
 		loadData(session);
 		return "word/aboutpage";
 	}
@@ -190,6 +191,7 @@ public class WordController {
 	@RequestMapping(value = "/contactpage", method = RequestMethod.GET)
 	public String contactpage(Model model, HttpSession session) {
 		logger.info("contactpage method...");
+		generateCopyRightYear(session);
 		loadData(session);
 		return "word/contactpage";
 	}
@@ -213,6 +215,13 @@ public class WordController {
 
 		model.addAttribute("contact", result);
 		return "word/contact";
+	}
+
+	private void generateCopyRightYear(HttpSession session) {
+		String copyRightYearString = (String) session.getAttribute(Common.COPY_RIGHT_YEAR);
+		if (copyRightYearString == null || "".equals(copyRightYearString)) {
+			session.setAttribute(Common.COPY_RIGHT_YEAR, simpleDateFormat.format(new Date()));
+		}
 	}
 
 }
